@@ -1,3 +1,4 @@
+function [refFrame, testFrame, refIndices, testIndices] = q2b()
 addpath('./sift');
 
 refImg = imread('reference.png');
@@ -56,3 +57,6 @@ set(test2,'color','g','linewidth',1);
 test3 = plotsiftframe(fTest(:, top(indices(3)):top(indices(3))));
 set(test3,'color','b','linewidth',1);
 hold off;
+
+[refFrame, testFrame, refIndices, testIndices] = [refFrame, testFrame, [indices(1), indices(2), indices(3)], [top(indices(1)), top(indices(2)), top(indices(3))]]
+end
