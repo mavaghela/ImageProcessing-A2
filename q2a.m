@@ -1,3 +1,4 @@
+function [refFrame, refDescr, testFrame, testDescr] q2a()
 addpath('./sift');
 
 refImg = imread('reference.png');
@@ -19,3 +20,6 @@ hold on;
 testI = plotsiftframe(testFrame(:,1:100));
 set(testI,'color','y','linewidth',1) ;
 hold off;
+
+[refFrame, refDescr, testFrame, testDescr] = [refFrame, refDescr, testFrame, testDescr];
+end

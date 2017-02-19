@@ -25,6 +25,9 @@ for i = 1:n
     if ratio < threshold
         matches(i) = v_closest;
         ratios(i) = ratio;
+    else
+        matches(i) = 0;
+        ratios(i) = 1;
     end
 end
  
@@ -58,5 +61,5 @@ test3 = plotsiftframe(fTest(:, top(indices(3)):top(indices(3))));
 set(test3,'color','b','linewidth',1);
 hold off;
 
-[refFrame, testFrame, refIndices, testIndices] = [refFrame, testFrame, [indices(1), indices(2), indices(3)], [top(indices(1)), top(indices(2)), top(indices(3))]]
+[refFrame, testFrame, refIndices, testIndices] = [refFrame, testFrame, [indices(1), indices(2), indices(3)], [top(indices(1)), top(indices(2)), top(indices(3))]];
 end
