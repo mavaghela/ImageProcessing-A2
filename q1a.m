@@ -1,44 +1,24 @@
 img = imread('building_1.jpg');
 img = rgb2gray(img);
 
-octave = 5;
+octave = 4;
 sigma = 0.5;
-scale = 5;
-
-## Gaussian image pyramid
-
-imgPyramid = [];
+scale = 4;
+k = 2^(1/scale);
 I = img;
 
 for i = 1:octave
-  if( i > 1)
-    [M, N] = size(I);
-    I = imresize(I, 0.5));
-  end
+ if(i > 1)   
+    I = impyramid(I, 'reduce');
+ end
+  [x,y] = size(I);
+  imgPyramid = zeros(x, y, scale);
+  diffPyramid = zeros(x, y, scale-1);
+  
   for j = 1:scale
-    if(j > 2)
-      imgPyramid(i, j) = imgaussfilt(imgPyramid(i, j-1),sigma);
-    end
-  end
-end
-
-imgDiff = [];
-
-k = 2^(1/scale);
-
-for i = 1:octave
-  for j = 1:(scale-1)
-    # p = (sigma, sigma*k,..., sigma*k^scale -1)
-    gaussianImg1 = imgaussfilt(imgPyramid(i, j),((k*(j-1))*sigma)); #G(x,y,p)
-    gaussianImg2 = imgaussfilt(imgPyramid(i, j+1),k*((k*(j-1))*sigma)); #G(x,y,kp)
-    gaussianDiffImg = imsubtract(gaussianImg2,gaussianImg1);
-    imgDiff(i, j) = immultiply(img, gaussianDiffImg);
-  end
-end
-    
-## find local maxima in each scale
-for i = 1:octave
-  for j = 1:(scale-1)
-    imgDiff(i, j)
+      imgPyramid(:,:,j) = imgaussfilt(I,(k^(j-1))*sigma);
+      if(j > 1)
+        diffPyramid(:,:,j-1) = (imgPyramid(:,:,j) - imgPyramid(:,:,j-1));
+      end
   end
 end
