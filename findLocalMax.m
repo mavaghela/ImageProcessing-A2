@@ -1,30 +1,40 @@
-function output = findLocalMax(matrices, start_x, start_y, start_z)
-    maximum = 1;
-    minimum = 1;
-    comparison_val = matrices(start_x, start_y, start_z);
-    for z=start_z-1:start_z+1
-        for y=start_y-1:start_y+1
-            for x=start_x-1:start_x+1
-                if (x==start_x && y == start_y & z==start_z)
+function out = findLocalMax(diffPyramid, currentX, currentY, currentZ)
+    max = 1;
+    min = 1;
+    out = 1;
+    currentPixel = diffPyramid(currentX, currentY, currentZ);
+
+    % filtering bad maximum values
+    if (currentPixel > -2 && currentPixel < 2)
+        out = 0;
+        return;
+    end
+    
+    % checking surrounding pixels for a max or min
+    for z = currentZ-1:currentZ+1
+        for y = currentY-1:currentY+1
+            for x = currentX-1:currentX+1
+                
+                % don't compare pixel with itself
+                if (x == currentX && y == currentY & z == currentZ)
                     break
                 end
-                if matrices(x,y,z) >= comparison_val
-                    maximum = 0;
+                
+                % current pixel isn't the max
+                if (diffPyramid(x,y,z) >= currentPixel)
+                    max = 0;
                 end
-                if matrices(x,y,z) <= comparison_val
-                    minimum = 0;
+                
+                % current pixel isn't the min
+                if (diffPyramid(x,y,z) <= currentPixel)
+                    min = 0;
                 end
-                if (~minimum && ~maximum)
-                   output = 0;
+                
+                if (~min && ~max)
+                   out = 0;
                    return;
                 end
             end
         end
     end
-    if (comparison_val > -2 && comparison_val < 2)
-        output = 0;
-    else
-        output = 1;
-    end
-    return;
 end
