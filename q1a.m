@@ -30,7 +30,7 @@ function out = q1a(octave, scales, sigma)
                     %to a new array and this is also where you translate your
                     %coords by multiplying them to 2^octave-1
                     %and then just look through that and draw it
-                  if (maximum_in_3_by_3(diffPyramid, a, b, c))
+                  if (findLocalMax(diffPyramid, a, b, c))
                     xCoord = a*(2^(i-1));
                     yCoord = b*(2^(i-1));
                     sigma = sigma*(k^(j-1));

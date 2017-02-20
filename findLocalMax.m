@@ -1,4 +1,4 @@
-function output = maximum_in_3_by_3(matrices, start_x, start_y, start_z)
+function output = findLocalMax(matrices, start_x, start_y, start_z)
     maximum = 1;
     minimum = 1;
     comparison_val = matrices(start_x, start_y, start_z);
